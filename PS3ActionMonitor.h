@@ -2,11 +2,14 @@
 #include "./Updater/Updater.h"
 #include "./listener/listener.h"
 #include "./joystick/joystick.h"
+#include "./button/button.h"
 void noneFunction(){};
 void updateAllEntities()
 {
     Ps3Updater.update();
     updateJoySticks();
+    updateButton();
+
 }
 void(*user_update_function)();
 void ps3_update(){
