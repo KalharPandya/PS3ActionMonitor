@@ -92,11 +92,11 @@ public:
 
         Ps3_event_button_down_square=st->event.button_down.square;
         Ps3_event_button_up_square=st->event.button_up.square;
-         Ps3_data_analog_button_square=st->data.analog.button.square;
+        Ps3_data_analog_button_square=st->data.analog.button.square;
 
         Ps3_event_button_down_triangle=st->event.button_down.triangle;
         Ps3_event_button_up_triangle=st->event.button_up.triangle;
-         Ps3_data_analog_button_triangle=st->data.analog.button.triangle;
+        Ps3_data_analog_button_triangle=st->data.analog.button.triangle;
 
         Ps3_event_button_down_circle=st->event.button_down.circle;
         Ps3_event_button_up_circle=st->event.button_up.circle;

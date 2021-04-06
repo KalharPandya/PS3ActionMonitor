@@ -4,6 +4,7 @@
 #include "./joystick/joystick.h"
 #include "./button/button.h"
 #include "./secondaryButton/secondaryButton.h"
+#include "./movement/movement.h"
 void noneFunction(){};
 void updateAllEntities()
 {
@@ -112,4 +113,6 @@ secondaryButton ps(psP,psR);
 listener selectP(&Ps3Updater.Ps3_event_button_down_select);
 listener selectR(&Ps3Updater.Ps3_event_button_up_select);
 secondaryButton select(selectP,selectR);
+
+movement m(&leftJoystick,&up,&down,&left,&right,&l1,&r1);
 
