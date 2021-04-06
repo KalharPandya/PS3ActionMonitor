@@ -1,4 +1,5 @@
-
+void nonej(){};
+void nonechangej(int z){};
 class joystick
 {
 public:
@@ -7,10 +8,10 @@ public:
     int xValue = 0;
     int yValue = 0;
     joystick(listener press, listener release, listener x, listener y);
-    void (*pressedJ)();
-    void (*releasedJ)();
-    void (*xChange)(int v);
-    void (*yChange)(int v);
+    void (*pressedJ)()=nonej;
+    void (*releasedJ)()=nonej;
+    void (*xChange)(int v)=nonechangej;
+    void (*yChange)(int v)=nonechangej;
     bool isPressed()
     {
         return pressed;
