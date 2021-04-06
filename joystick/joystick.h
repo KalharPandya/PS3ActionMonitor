@@ -3,6 +3,7 @@ void nonechangej(int z){};
 class joystick
 {
 public:
+    int value = 0;
     listener press, release, x, y;
     bool pressed = false;
     bool jpressed = true;
@@ -18,11 +19,11 @@ public:
     void (*yChange)(int v) = nonechangej;
     void enable()
     {
-        en = true;//enabling joystick
+        en = true;
     }
     void disable()
     {
-        en = false;//disabling joystick
+        en = false;
     }
     bool isPressed()
     {
@@ -71,24 +72,34 @@ public:
                 if (release.get().value == 1)
                 {
                     pressed = false;
+                    xChange(0);
+                    yChange(0);
                     releasedJ();
                 }
             }
 
             if (x.check())
             {
-                if (!xyPressed || pressed)
+                value = x.get().value;
+                if ( (!xyPressed || pressed))
                 {
-                    xValue = x.get().value;
+                    if(abs(value)<10){
+                        value = 0;
+                    }
+                    xValue = value;
                     xChange(xValue);
                 }
             }
 
             if (y.check())
             {
-                if (!xyPressed || pressed)
+                value = y.get().value;
+                if ( (!xyPressed || pressed))
                 {
-                    yValue = y.get().value;
+                    if(abs(value)<10){
+                        value = 0;
+                    }
+                    yValue = value;
                     yChange(yValue);
                 }
             }

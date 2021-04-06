@@ -17,28 +17,27 @@ void releasedDown();
 void pressedDown();
 void usingJoystickX(int v);
 void usingJoystickY(int v);
-void pressedRot1();
-void pressedRot2();
-void analogRot1(int v);
-void analogRot2(int v);
-void releasedRot1();
-void releasedRot2();
+void pressedleftR();
+void pressedrightR();
+void analogleftR(int v);
+void analogrightR(int v);
+void releasedleftR();
+void releasedrightR();
 class movement
 {
 public:
-    joystick *js; //*js(int id)
-                  //button u,d,l,r,rot1,rot2;
-    button *up, *down, *left, *right, *rot1, *rot2;
-    int xCorBtn = 0, yCorBtn = 0, rCorBtn = 0, xCorJoy = 0, yCorJoy = 0;
+    joystick *js;
+    button *up, *down, *left, *right, *leftR, *rightR;
     int Semaphore = -1;
-    movement(joystick *js, button *up, button *down, button *left, button *right, button *rotational1, button *rotational2)
+    double outputX = 0, outputY = 0, outputR = 0;
+    movement(joystick *js, button *up, button *down, button *left, button *right, button *leftR, button *rightR)
     {
         this->up = up;
         this->down = down;
         this->left = left;
         this->right = right;
-        this->rot1 = rotational1;
-        this->rot2 = rotational2;
+        this->leftR = leftR;
+        this->rightR = rightR;
         this->js = js;
         attachAll();
         storeObject();
@@ -63,110 +62,149 @@ public:
         js->attachXChange(usingJoystickX);
         js->attachYChange(usingJoystickY);
 
-        rot1->attachPress(pressedRot1);
-        rot2->attachPress(pressedRot2);
+        leftR->attachPress(pressedleftR);
+        rightR->attachPress(pressedrightR);
 
-        rot1->attachAnalogChange(analogRot1);
-        rot2->attachAnalogChange(analogRot2);
+        leftR->attachAnalogChange(analogleftR);
+        rightR->attachAnalogChange(analogrightR);
 
-        rot1->attachRelease(releasedRot1);
-        rot2->attachRelease(releasedRot2);
+        leftR->attachRelease(releasedleftR);
+        rightR->attachRelease(releasedrightR);
     }
-    void SemaphoreUpdate(){
-       if(Semaphore<0){
-           js->disable();
-       }
-       else{
-           js->enable();
-       }
+    void SemaphoreUpdate()
+    {
+        if (Semaphore < 0)
+        {
+            js->enable();
+        }
+        else
+        {
+            js->disable();
+        }
     }
     void m_analogUp(int v)
     {
-        
+        outputX = 0;
+        outputY = v;
+        sendData();
     }
     void m_releasedUp()
     {
         Semaphore--;
+        outputY = 0;
         SemaphoreUpdate();
+        sendData();
     }
     void m_pressedUp()
     {
         Semaphore++;
         SemaphoreUpdate();
+        sendData();
     }
     void m_analogLeft(int v)
     {
-
+        outputX = -1 * v;
+        outputY = 0;
+        sendData();
     }
     void m_releasedLeft()
     {
         Semaphore--;
+        outputX = 0;
         SemaphoreUpdate();
+        sendData();
     }
     void m_pressedLeft()
     {
         Semaphore++;
         SemaphoreUpdate();
+        sendData();
     }
     void m_analogRight(int v)
     {
-
+        outputX = v;
+        outputY = 0;
+        sendData();
     }
     void m_releasedRight()
     {
         Semaphore--;
+        outputX = 0;
         SemaphoreUpdate();
+        sendData();
     }
     void m_pressedRight()
     {
         Semaphore++;
         SemaphoreUpdate();
+        sendData();
     }
     void m_analogDown(int v)
     {
-
+        outputX = 0;
+        outputY = -1 * v;
+        sendData();
     }
     void m_releasedDown()
     {
         Semaphore--;
+        outputY = 0;
         SemaphoreUpdate();
+        sendData();
     }
     void m_pressedDown()
     {
         Semaphore++;
         SemaphoreUpdate();
+        sendData();
     }
     void m_joyStickX(int v)
     {
-
+        if (v != 0)
+            outputX = map(v, -128, 127, -255, 255);
+        else
+            outputX = 0;
+        sendData();
     }
     void m_joyStickY(int v)
     {
-
+        if (v != 0)
+            outputY = map(v, 127, -128, -255, 255);
+        else
+            outputY = 0;
+        sendData();
     }
-    void m_pressedRot1()
+    void m_pressedleftR()
     {
-        
+        sendData();
     }
-    void m_pressedRot2()
+    void m_pressedrightR()
     {
-        
+        sendData();
     }
-    void m_analogRot1(int v)
+    void m_analogleftR(int v)
     {
-
+        outputR = v * -1;
+        sendData();
     }
-    void m_analogRot2(int v)
+    void m_analogrightR(int v)
     {
-
+        outputR = v;
+        sendData();
     }
-    void m_releasedRot1()
+    void m_releasedleftR()
     {
-       
+        outputR = outputR < 0 ? 0 : outputR;
+        sendData();
     }
-    void m_releasedRot2()
+    void m_releasedrightR()
     {
-       
+        outputR = outputR > 0 ? 0 : outputR;
+        sendData();
+    }
+    void sendData()
+    {
+        Serial.println("X: " + String(outputX) + "  \tY: " + String(outputY) + "  \tR: " + String(outputR));
     }
     void storeObject();
 };
@@ -252,31 +290,31 @@ void usingJoystickY(int v)
     movementObject->m_joyStickY(v);
 }
 
-void pressedRot1()
+void pressedleftR()
 {
-    movementObject->m_pressedRot1();
+    movementObject->m_pressedleftR();
 }
 
-void pressedRot2()
+void pressedrightR()
 {
-    movementObject->m_pressedRot2();
+    movementObject->m_pressedrightR();
 }
 
-void analogRot1(int v)
+void analogleftR(int v)
 {
-    movementObject->m_analogRot1(v);
+    movementObject->m_analogleftR(v);
 }
-void analogRot2(int v)
+void analogrightR(int v)
 {
-    movementObject->m_analogRot2(v);
-}
-
-void releasedRot1()
-{
-    movementObject->m_releasedRot1();
+    movementObject->m_analogrightR(v);
 }
 
-void releasedRot2()
+void releasedleftR()
 {
-    movementObject->m_releasedRot2();
+    movementObject->m_releasedleftR();
+}
+
+void releasedrightR()
+{
+    movementObject->m_releasedrightR();
 }
