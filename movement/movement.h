@@ -1,4 +1,5 @@
-
+Peer myEsp;
+json myObj;
 ////Up
 void analogUp(int v);
 void releasedUp();
@@ -15,22 +16,37 @@ void pressedRight();
 void analogDown(int v);
 void releasedDown();
 void pressedDown();
+////left/right RC(rotation control)
+void leftanalogRc(int v);
+void rightanalogRc(int v);
+
+void releasedleftRc();
+void releasedrightRc();
+
+void pressedleftRc();
+void pressedrightRc();
+
+//joy
 void usingJoystickX(int v);
 void usingJoystickY(int v);
+
 void pressedleftR();
 void pressedrightR();
+
 void analogleftR(int v);
 void analogrightR(int v);
+
 void releasedleftR();
 void releasedrightR();
+
 class movement
 {
 public:
     joystick *js;
-    button *up, *down, *left, *right, *leftR, *rightR;
+    button *up, *down, *left, *right, *leftR, *rightR, *leftRC, *rightRC;
     int Semaphore = -1;
-    double outputX = 0, outputY = 0, outputR = 0;
-    movement(joystick *js, button *up, button *down, button *left, button *right, button *leftR, button *rightR)
+    double outputX = 0, outputY = 0, outputR = 0,outputRC=0;
+    movement(joystick *js, button *up, button *down, button *left, button *right, button *leftR, button *rightR, button *leftRC, button *rightRC)
     {
         this->up = up;
         this->down = down;
@@ -39,6 +55,8 @@ public:
         this->leftR = leftR;
         this->rightR = rightR;
         this->js = js;
+        this->leftRC=leftRC;
+        this->rightRC=rightRC;
         attachAll();
         storeObject();
     }
@@ -70,7 +88,16 @@ public:
 
         leftR->attachRelease(releasedleftR);
         rightR->attachRelease(releasedrightR);
-    }
+
+        leftRC->attachAnalogChange(leftanalogRc);
+        rightRC->attachAnalogChange(rightanalogRc);
+
+        leftRC->attachPress(pressedleftRc);
+        rightRC->attachPress(pressedrightRc);
+
+        leftRC->attachPress(releasedleftRc);
+        rightRC->attachPress(releasedrightRc);
+;    }
     void SemaphoreUpdate()
     {
         if (Semaphore < 0)
@@ -202,9 +229,50 @@ public:
         outputR = outputR > 0 ? 0 : outputR;
         sendData();
     }
+    void m_releasedleftRc()
+    {
+        Semaphore--;
+        SemaphoreUpdate();
+        outputRC=0;
+        sendData();
+    }
+    void m_releasedrightRc()
+    {
+        Semaphore--;
+        SemaphoreUpdate();
+        outputRC=0;
+        sendData();
+    }
+    void m_pressedleftRc()
+    {
+        Semaphore++;
+        SemaphoreUpdate();
+    }
+    void m_pressedrightRc()
+    {
+        Semaphore++;
+        SemaphoreUpdate();
+    }
+    void m_leftanalogRc(int v)
+    {
+
+        outputRC=map(v,0,255,0,90)*(-1);
+        sendData();
+    }
+    void m_rightanalogRc(int v)
+    {
+        
+        outputRC=map(v,0,255,0,90);
+        sendData();
+    }
     void sendData()
     {
-        Serial.println("X: " + String(outputX) + "  \tY: " + String(outputY) + "  \tR: " + String(outputR));
+        myObj.clear();
+         myObj.addUnit("x", outputX);
+         myObj.addUnit("y", outputY);
+         myObj.addUnit("r", outputR);
+         myEsp.send(myObj);
+        Serial.println("X: " + String(outputX) + "  \tY: " + String(outputY) + "  \tR: " + String(outputR)+"  \tRC: " + String(outputRC));
     }
     void storeObject();
 };
@@ -317,4 +385,34 @@ void releasedleftR()
 void releasedrightR()
 {
     movementObject->m_releasedrightR();
+}
+
+void releasedleftRc()
+{
+    movementObject->m_releasedleftRc();
+}
+
+void releasedrightRc()
+{
+    movementObject->m_releasedrightRc();
+}
+
+void leftanalogRc(int v)
+{
+    movementObject->m_leftanalogRc(v);
+}
+
+void rightanalogRc(int v)
+{
+    movementObject->m_rightanalogRc(v);
+}
+
+void pressedleftRc()
+{
+	movementObject->m_pressedleftRc();
+}
+
+void pressedrighttRc()
+{
+	movementObject->m_pressedrightRc();
 }
