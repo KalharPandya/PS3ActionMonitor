@@ -7,8 +7,13 @@
 #include "./joystick/joystick.h"
 #include "./button/button.h"
 #include "./secondaryButton/secondaryButton.h"
-#include "./movement/movement.h"
+#include "./DRfunction/DRfunction.h"
+#include "./DrPicking/DrPicking.h"
+// #include "./movement/movement.h"
+#include "./DrBase/DrBase.h"
+
 #include "./listener/AllListners.h"
+
 void noneFunction(){};
 void updateAllEntities()
 {

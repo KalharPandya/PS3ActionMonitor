@@ -84,4 +84,10 @@ listener selectP(&Ps3Updater.Ps3_event_button_down_select);
 listener selectR(&Ps3Updater.Ps3_event_button_up_select);
 secondaryButton selectButton(selectP,selectR);
 
-movement m(&leftJoystick,&up,&down,&left,&right,&l2,&r2,&l1,&r1);
+// movement m(&leftJoystick,&up,&down,&left,&right,&l2,&r2,&selectButton);
+
+function f(&square,&cross,&triangle,&circle,&start);
+
+DrPicking d(&r1);
+
+DrBase db(&up,&down,&left,&right,&l2,&r2);
