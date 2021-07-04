@@ -80,7 +80,7 @@ public:
 
             if (x.check())
             {
-                value = x.get().value;
+                value = x.get().getProcessedValue();
                 if ( (!xyPressed || pressed))
                 {
                     if(abs(value)<10){
@@ -93,7 +93,7 @@ public:
 
             if (y.check())
             {
-                value = y.get().value;
+                value = y.get().getProcessedValue();
                 if ( (!xyPressed || pressed))
                 {
                     if(abs(value)<10){

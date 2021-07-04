@@ -1,7 +1,16 @@
+Exponential exponent;
 class variable{
     public:
-    int value;
+    int value = 0;
     String name;
+    variable(){
+        exponent.setB(3);
+        exponent.setBoundry(0,255);
+    }
+    double getProcessedValue(){
+        return exponent.compute(value);
+    }
+
     void display(){
         Serial.println(name+"="+value);
     }

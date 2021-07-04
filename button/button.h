@@ -68,7 +68,7 @@ public:
 			}
 			if (pressed && btnAnalogChange.check())
 			{
-				analogChangeValue = btnAnalogChange.get().value;
+				analogChangeValue = btnAnalogChange.get().getProcessedValue();
 				analogChange(analogChangeValue);
 			}
 		}
