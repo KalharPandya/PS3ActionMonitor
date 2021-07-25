@@ -8,6 +8,7 @@ class variable{
         exponent.setBoundry(0,255);
     }
     double getProcessedValue(){
+            
         return exponent.compute(value);
     }
 
@@ -19,7 +20,7 @@ class listener
 {
 public:
     int *var;
-    int prevValue;
+    int prevValue =0;
     String name;
     variable v;
     listener() {}
@@ -35,6 +36,7 @@ public:
     void set(int *ref, String n = "Noname")
     {
         var = ref;
+        *var = 0;
         prevValue = *var;
         name = n;
     }
@@ -43,6 +45,7 @@ public:
         if (prevValue != *var)
         {
             prevValue = *var;
+            // Serial.println("prevValue---"+String(prevValue));
             return true;
         }
         return false;

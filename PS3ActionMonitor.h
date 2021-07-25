@@ -1,4 +1,6 @@
+#include<Arduino.h>
 #include <EspNow.h>
+
 // Peer myEsp;
 #include "./exponential/exponential.h"
 #include <Ps3Controller.h>
@@ -22,6 +24,7 @@ void updateAllEntities()
     updateJoySticks();
     updateButton();
     updateSecondaryButton();
+    battery_status();
 
 }
 void(*user_update_function)();

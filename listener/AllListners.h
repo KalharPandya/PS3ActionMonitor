@@ -92,3 +92,35 @@ listener selectP(&Ps3Updater.Ps3_event_button_down_select);
 listener selectR(&Ps3Updater.Ps3_event_button_up_select);
 
 secondaryButton selectButton(selectP,selectR);
+
+int status;
+int changing=-1;
+
+String charge = "";
+void battery_status()
+{
+    status=Ps3Updater.battery;
+//    Serial.print("Remote Battery Status = "+String(status));
+    if(status!=changing)
+    {
+        changing=status;
+        Serial.print("-------------->Status of remotee =");
+    if(status==5)
+      charge= "FUll";
+    else if(status==0)
+        charge= "NOT CONNECTED";
+    else if(status==1)
+        charge= "SHUTDOWN";
+    else if(status==2)
+        charge= "DYING";
+    else if(status==3)
+        charge= "LOW";
+    else if(status==4)
+        charge= "HIGH";
+    else
+        charge= "Charging";
+    }
+}
+String rmBattery(){
+    return charge;
+}

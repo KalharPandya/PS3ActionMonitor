@@ -66,7 +66,7 @@ public:
     int Ps3_event_button_up_start = 0;
     int Ps3_event_button_down_ps = 0;
     int Ps3_event_button_up_ps = 0;
-
+    int battery;
    
     //int Ps3_data_analog_stick_lx = 0;
 
@@ -143,7 +143,7 @@ public:
         Ps3_event_button_up_start=st->event.button_up.start;
         Ps3_event_button_down_ps=st->event.button_down.ps;
         Ps3_event_button_up_ps=st->event.button_up.ps;
-
+        battery=st-> data.status.battery;
         
     }
 } Ps3Updater(&Ps3);
