@@ -1,17 +1,7 @@
-Exponential exponent;
 class variable{
     public:
-    int value = 0;
+    int value;
     String name;
-    variable(){
-        exponent.setB(3);
-        exponent.setBoundry(0,255);
-    }
-    double getProcessedValue(){
-            
-        return exponent.compute(value);
-    }
-
     void display(){
         Serial.println(name+"="+value);
     }
@@ -20,7 +10,9 @@ class listener
 {
 public:
     int *var;
-    int prevValue =0;
+    int prevValue;
+    bool use_threshold = false;
+    int threshold = 10;
     String name;
     variable v;
     listener() {}
@@ -36,7 +28,6 @@ public:
     void set(int *ref, String n = "Noname")
     {
         var = ref;
-        *var = 0;
         prevValue = *var;
         name = n;
     }
@@ -44,8 +35,9 @@ public:
     {
         if (prevValue != *var)
         {
+            if(*var!=0 && use_threshold && abs(*var - prevValue) < threshold)
+                return false;
             prevValue = *var;
-            // Serial.println("prevValue---"+String(prevValue));
             return true;
         }
         return false;

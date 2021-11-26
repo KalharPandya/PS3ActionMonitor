@@ -45,82 +45,49 @@ button down(downP,downR,downA);
 listener rightP(&Ps3Updater.Ps3_event_button_down_right);
 listener rightR(&Ps3Updater.Ps3_event_button_up_right);
 listener rightA(&Ps3Updater.Ps3_data_analog_button_right);
-
 button right(rightP,rightR,rightA);
 
 listener leftP(&Ps3Updater.Ps3_event_button_down_left);
 listener leftR(&Ps3Updater.Ps3_event_button_up_left);
 listener leftA(&Ps3Updater.Ps3_data_analog_button_left);
-
 button left(leftP,leftR,leftA);
 
 listener l1P(&Ps3Updater.Ps3_event_button_down_l1);
 listener l1R(&Ps3Updater.Ps3_event_button_up_l1);
 listener l1A(&Ps3Updater.Ps3_data_analog_button_l1);
-
 button l1(l1P,l1R,l1A);
 
 listener l2P(&Ps3Updater.Ps3_event_button_down_l2);
 listener l2R(&Ps3Updater.Ps3_event_button_up_l2);
 listener l2A(&Ps3Updater.Ps3_data_analog_button_l2);
-
 button l2(l2P,l2R,l2A);
 
 listener r1P(&Ps3Updater.Ps3_event_button_down_r1);
 listener r1R(&Ps3Updater.Ps3_event_button_up_r1);
 listener r1A(&Ps3Updater.Ps3_data_analog_button_r1);
-
 button r1(r1P,r1R,r1A);
 
 listener r2P(&Ps3Updater.Ps3_event_button_down_r2);
 listener r2R(&Ps3Updater.Ps3_event_button_up_r2);
 listener r2A(&Ps3Updater.Ps3_data_analog_button_r2);
-
 button r2(r2P,r2R,r2A);
 
 listener startP(&Ps3Updater.Ps3_event_button_down_start);
 listener startR(&Ps3Updater.Ps3_event_button_up_start);
-
 secondaryButton start(startP,startR);
 
 listener psP(&Ps3Updater.Ps3_event_button_down_ps);
 listener psR(&Ps3Updater.Ps3_event_button_up_ps);
-
 secondaryButton ps(psP,psR);
 
 listener selectP(&Ps3Updater.Ps3_event_button_down_select);
 listener selectR(&Ps3Updater.Ps3_event_button_up_select);
-
 secondaryButton selectButton(selectP,selectR);
 
-int status;
-int changing=-1;
+movement m(&leftJoystick,&up,&down,&left,&right,&l2,&r2,&selectButton);
 
-String charge = "";
-void battery_status()
-{
-    status=Ps3Updater.battery;
-//    Serial.print("Remote Battery Status = "+String(status));
-    if(status!=changing)
-    {
-        changing=status;
-        Serial.print("-------------->Status of remotee =");
-    if(status==5)
-      charge= "FUll";
-    else if(status==0)
-        charge= "NOT CONNECTED";
-    else if(status==1)
-        charge= "SHUTDOWN";
-    else if(status==2)
-        charge= "DYING";
-    else if(status==3)
-        charge= "LOW";
-    else if(status==4)
-        charge= "HIGH";
-    else
-        charge= "Charging";
-    }
-}
-String rmBattery(){
-    return charge;
-}
+// function f(&square,&cross,&triangle,&circle,&start);
+
+// DrPicking d(&r1);
+
+// DrBase db(&up,&down,&left,&right,&l2,&r2);

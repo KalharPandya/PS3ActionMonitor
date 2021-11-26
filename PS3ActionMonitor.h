@@ -1,21 +1,17 @@
-#include<Arduino.h>
 #include <EspNow.h>
-
 // Peer myEsp;
-#include "./exponential/exponential.h"
 #include <Ps3Controller.h>
 
 #include "./Updater/Updater.h"
-
 #include "./listener/listener.h"
 #include "./joystick/joystick.h"
 #include "./button/button.h"
 #include "./secondaryButton/secondaryButton.h"
 
-#include "./listener/AllListners.h"
-
-// #include "./movement/movement.h"
+#include "./movement/movement.h"
 // #include "./DrBase/DrBase.h"
+
+#include "./listener/AllListners.h"
 
 void noneFunction(){};
 void updateAllEntities()
@@ -24,7 +20,6 @@ void updateAllEntities()
     updateJoySticks();
     updateButton();
     updateSecondaryButton();
-    battery_status();
 
 }
 void(*user_update_function)();

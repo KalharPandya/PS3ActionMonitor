@@ -80,26 +80,26 @@ public:
 
             if (x.check())
             {
-                value = x.get().getProcessedValue();
-                if ( (!xyPressed || pressed))
+                value = x.get().value;
+                if ( (!xyPressed || pressed || true))
                 {
                     if(abs(value)<10){
                         value = 0;
                     }
-                    xValue = value;
+                    xValue = value/2;
                     xChange(xValue);
                 }
             }
 
             if (y.check())
             {
-                value = y.get().getProcessedValue();
-                if ( (!xyPressed || pressed))
+                value = y.get().value;
+                if ( (!xyPressed || pressed || true))
                 {
                     if(abs(value)<10){
                         value = 0;
                     }
-                    yValue = value;
+                    yValue = value/2;
                     yChange(yValue);
                 }
             }
@@ -112,6 +112,9 @@ int joyStickIndex = 0;
 
 joystick::joystick(listener press, listener release, listener x, listener y)
 {
+    x.use_threshold = true;
+    y.use_threshold = true;
+
     this->press = press;
     this->release = release;
     this->x = x;

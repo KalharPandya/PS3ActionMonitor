@@ -9,7 +9,7 @@ public:
 	bool pressed = false;
 	bool en = true;
 	listener btnPress, btnRelease, btnAnalogChange;
-	int prevExp = 0;
+
 	button() {}
 	button(listener btnPress, listener btnRelease, listener btnAnalogChange);
 	//button(listener btnPress,listener btnRelease);
@@ -68,15 +68,8 @@ public:
 			}
 			if (pressed && btnAnalogChange.check())
 			{
-				// Serial.println(String(analogChangeValue) + "  ,  " + String(prevExp));
-				analogChangeValue = btnAnalogChange.get().getProcessedValue();
-				if (analogChangeValue==0|| abs(analogChangeValue - prevExp) >= 5)
-				{
-					// Serial.println(analogChangeValue);
-					prevExp = analogChangeValue;
-
-					analogChange(analogChangeValue);
-				}
+				analogChangeValue = btnAnalogChange.get().value;
+				analogChange(analogChangeValue);
 			}
 		}
 	}
@@ -86,6 +79,7 @@ int buttonIndex = 0;
 
 button::button(listener btnPress, listener btnRelease, listener btnAnalogChange)
 {
+	btnAnalogChange.use_threshold = true;
 	this->btnPress = btnPress;
 	this->btnRelease = btnRelease;
 	this->btnAnalogChange = btnAnalogChange;
